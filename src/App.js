@@ -9,9 +9,9 @@ class App extends Component {
     this.state = {
       newItem: "",
       todoItems: [
-        { title: "Sửa xe" },
-        { title: "Đi chợ" },
-        { title: "Học bài" },
+        { title: "Sửa xe", isComplete: false },
+        { title: "Đi chợ", isComplete: false },
+        { title: "Học bài", isComplete: false },
       ],
     };
     this.onKeyUp = this.onKeyUp.bind(this);
