@@ -4,7 +4,7 @@ class TontonItem extends Component {
   render() {
     return (
       <div className="TontonItem">
-        <h2>Hello TonTon</h2>
+        <h2>{this.props.title}</h2>
       </div>
     );
   }
