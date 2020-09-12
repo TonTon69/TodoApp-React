@@ -1,15 +1,25 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 import "./TodoItem.css";
+import checkImg from "../img/check.svg";
+import checkCompleteImg from "../img/check-complete.svg";
+
 class TodoItem extends Component {
   render() {
-    const { item } = this.props;
-    let className = "TodoItem";
+    const { item, onClick } = this.props;
+    let url = checkImg;
     if (item.isComplete) {
-      className += " TodoItem-complete";
+      url = checkCompleteImg;
     }
+
     return (
-      <div className={className}>
-        <h2>{item.title}</h2>
+      <div
+        className={classNames("TodoItem", {
+          "TodoItem-complete": item.isComplete,
+        })}
+      >
+        <img onClick={onClick} src={url} width={26} />
+        <p>{this.props.item.title}</p>
       </div>
     );
   }
