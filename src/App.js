@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import "./App.css";
-import TontonItem from "./components/TontonItem";
+import TodoItem from "./components/TodoItem";
 class App extends Component {
   constructor() {
     super();
-    this.tontonItems = [
-      "Chào TonTon",
-      "Chào các bạn",
-      "Chào các em gái xinh đẹp",
+    this.todoItems = [
+      { title: "Sửa xe", isComplete: true },
+      { title: "Đi chợ" },
+      { title: "Học bài" },
     ];
   }
 
   render() {
     return (
       <div className="App">
-        {this.tontonItems.map((item, index) => (
-          <TontonItem key={index} title={item} />
+        {this.todoItems.map((item, index) => (
+          <TodoItem key={index} item={item} />
         ))}
       </div>
     );
