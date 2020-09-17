@@ -1,95 +1,42 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import "./App.css";
-import TodoItem from "./components/TodoItem";
-import tick from "./img/tick.svg";
+import "./css/Todo.css";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      newItem: "",
-      todoItems: [
-        { title: "Sửa xe", isComplete: false },
-        { title: "Đi chợ", isComplete: false },
-        { title: "Học bài", isComplete: false },
-      ],
-    };
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
+import Header from "./components/Header";
+import TodoList from "./components/TodoList";
+import Footer from "./components/Footer";
 
-  onItemClicked(item) {
-    return (event) => {
-      const isComplete = item.isComplete;
-      const { todoItems } = this.state;
-      const index = todoItems.indexOf(item);
-      this.setState({
-        todoItems: [
-          ...todoItems.slice(0, index),
-          {
-            ...item,
-            isComplete: !isComplete,
-          },
-          ...todoItems.slice(index + 1),
-        ],
-      });
-    };
-  }
+class App extends PureComponent {
+  state = {
+    todosList: [
+      {
+        id: 1,
+        text: "todo1",
+        isCompleted: true,
+      },
+      {
+        id: 2,
+        text: "todo2",
+        isCompleted: false,
+      },
+    ],
+  };
 
-  onKeyUp(event) {
-    if (event.keyCode === 13) {
-      let text = event.target.value;
-      if (!text) {
-        return;
-      }
-      text = text.trim();
-      if (!text) {
-        return;
-      }
-
-      this.setState({
-        newItem: "",
-        todoItems: [
-          ...this.state.todoItems,
-          { title: text, isComplete: false },
-        ],
-      });
-    }
-  }
-  onChange(event) {
-    this.setState({
-      newItem: event.target.value,
-    });
-  }
+  addTodo = (todo = {}) => {
+    this.setState((preState) => ({
+      todosList: [...preState.todosList, todo],
+    }));
+  };
 
   render() {
-    const { todoItems, newItem } = this.state;
-    if (todoItems.length) {
-      return (
-        <div className="App">
-          <div className="Header">
-            <img src={tick} width={26} />
-            <input
-              type="text"
-              placeholder="Thêm công việc vào đây!!!"
-              value={newItem}
-              onChange={this.onChange}
-              onKeyUp={this.onKeyUp}
-            />
-          </div>
-          {todoItems.length &&
-            todoItems.map((item, index) => (
-              <TodoItem
-                key={index}
-                item={item}
-                onClick={this.onItemClicked(item)}
-              />
-            ))}
-        </div>
-      );
-    } else {
-      return <div className="App">Nothing here</div>;
-    }
+    const { todosList } = this.state;
+    return (
+      <div className="todoapp">
+        <Header addTodo={this.addTodo} />
+        <TodoList todosList={todosList} />
+        <Footer />
+      </div>
+    );
   }
 }
 
