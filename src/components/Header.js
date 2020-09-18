@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const Header = (props) => {
   const [text, setText] = useState("");
-  const { addTodo } = props;
+  const { addTodo, isCheckedAll } = props;
   const onAddTodo = (e = {}) => {
     if (e.key === "Enter" && text) {
       addTodo({

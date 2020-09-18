@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import TodoList from "./components/TodoList";
 import Footer from "./components/Footer";
 
+const isNotCheckedAll = (todos = []) => todos.find((todo) => !todo.isCompleted);
+
 class App extends PureComponent {
   state = {
     todosList: [
@@ -21,7 +23,14 @@ class App extends PureComponent {
       },
     ],
     todoEditingId: "",
+    isCheckedAll: false,
   };
+
+  componentWillMount() {
+    this.setState({
+      isCheckedAll: !isNotCheckedAll(this.state.todosList),
+    });
+  }
 
   addTodo = (todo = {}) => {
     this.setState((preState) => ({
@@ -42,24 +51,40 @@ class App extends PureComponent {
   };
 
   markCompleted = (id = "") => {
+    const { todosList } = this.state;
+    const updatedList = todosList.map((todo) =>
+      todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+    );
     this.setState((preState) => ({
-      todosList: preState.todosList.map((todo) =>
-        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
-      ),
+      todosList: updatedList,
+      isCheckedAll: isNotCheckedAll(updatedList),
+    }));
+  };
+
+  checkAllTodos = () => {
+    const { todosList, isCheckedAll } = this.state;
+    this.setState((preState) => ({
+      todosList: todosList.map((todo) => ({
+        ...todo,
+        isCompleted: !isCheckedAll,
+      })),
+      isCheckedAll: !preState.isCheckedAll,
     }));
   };
 
   render() {
-    const { todosList, todoEditingId } = this.state;
+    const { todosList, todoEditingId, isCheckedAll } = this.state;
     return (
       <div className="todoapp">
-        <Header addTodo={this.addTodo} />
+        <Header addTodo={this.addTodo} isCheckedAll={isCheckedAll} />
         <TodoList
           todosList={todosList}
           getTodoEditingId={this.getTodoEditingId}
           todoEditingId={todoEditingId}
           onEditTodo={this.onEditTodo}
           markCompleted={this.markCompleted}
+          isCheckedAll={isCheckedAll}
+          checkAllTodos={this.checkAllTodos}
         />
         <Footer />
       </div>
