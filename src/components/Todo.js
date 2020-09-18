@@ -8,6 +8,7 @@ const Todo = (props) => {
     onEditTodo,
     index,
     markCompleted,
+    removeTodo,
   } = props;
   const [text, setText] = useState(todo.text);
   const isEditing = todoEditingId === todo.id;
@@ -37,7 +38,7 @@ const Todo = (props) => {
           <label onDoubleClick={() => getTodoEditingId(todo.id)}>
             {todo.text}
           </label>
-          <button className="destroy"></button>
+          <button className="destroy" onClick={() => removeTodo(todo.id)} />
         </div>
       ) : (
         <input

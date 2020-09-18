@@ -1,7 +1,13 @@
 import React from "react";
 
 const Footer = (props) => {
-  const { status, setStatusFilter } = props;
+  const {
+    status,
+    setStatusFilter,
+    numOfTodos,
+    numOfTodoLeft,
+    clearCompleted,
+  } = props;
   const lilterBtns = [
     {
       title: "All",
@@ -25,9 +31,9 @@ const Footer = (props) => {
   return (
     <footer className="footer">
       <span className="todo-count">
-        <strong>2</strong>
+        <strong>{numOfTodoLeft}</strong>
         <span></span>
-        <span> items</span>
+        <span> {numOfTodoLeft <= 1 ? "item" : "items"}</span>
         <span> left</span>
       </span>
       <ul className="filters">
@@ -35,7 +41,11 @@ const Footer = (props) => {
           <FilterBtn key={`btn${btn.title}`} {...btn} />
         ))}
       </ul>
-      <button className="clear-completed">Clear completed</button>
+      {numOfTodos > numOfTodoLeft && (
+        <button className="clear-completed" onClick={clearCompleted}>
+          Clear completed
+        </button>
+      )}
     </footer>
   );
 };

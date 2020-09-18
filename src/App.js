@@ -92,6 +92,20 @@ class App extends PureComponent {
     });
   };
 
+  clearCompleted = () => {
+    const { todosList } = this.state;
+    this.setState({
+      todosList: filterByStatus(todosList, "ACTIVE"),
+    });
+  };
+
+  removeTodo = (id) => {
+    const { todosList } = this.state;
+    this.setState({
+      todosList: filterByStatus(todosList, "REMOVE", id),
+    });
+  };
+
   render() {
     const { todosList, todoEditingId, isCheckedAll, status } = this.state;
     return (
@@ -105,8 +119,15 @@ class App extends PureComponent {
           markCompleted={this.markCompleted}
           isCheckedAll={isCheckedAll}
           checkAllTodos={this.checkAllTodos}
+          removeTodo={this.removeTodo}
         />
-        <Footer setStatusFilter={this.setStatusFilter} status={status} />
+        <Footer
+          setStatusFilter={this.setStatusFilter}
+          status={status}
+          clearCompleted={this.clearCompleted}
+          numOfTodos={todosList.length}
+          numOfTodoLeft={filterByStatus(todosList, "ACTIVE").length}
+        />
       </div>
     );
   }
