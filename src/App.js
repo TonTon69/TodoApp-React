@@ -8,6 +8,19 @@ import Footer from "./components/Footer";
 
 const isNotCheckedAll = (todos = []) => todos.find((todo) => !todo.isCompleted);
 
+const filterByStatus = (todos = [], status = "", id = "") => {
+  switch (status) {
+    case "ACTIVE":
+      return todos.filter((todo) => !todo.isCompleted);
+    case "COMPLETED":
+      return todos.filter((todo) => todo.isCompleted);
+    case "REMOVE":
+      return todos.filter((todo) => todo.id !== id);
+    default:
+      return todos;
+  }
+};
+
 class App extends PureComponent {
   state = {
     todosList: [
@@ -24,6 +37,7 @@ class App extends PureComponent {
     ],
     todoEditingId: "",
     isCheckedAll: false,
+    status: "ALL",
   };
 
   componentWillMount() {
@@ -72,13 +86,19 @@ class App extends PureComponent {
     }));
   };
 
+  setStatusFilter = (status = "") => {
+    this.setState({
+      status,
+    });
+  };
+
   render() {
-    const { todosList, todoEditingId, isCheckedAll } = this.state;
+    const { todosList, todoEditingId, isCheckedAll, status } = this.state;
     return (
       <div className="todoapp">
         <Header addTodo={this.addTodo} isCheckedAll={isCheckedAll} />
         <TodoList
-          todosList={todosList}
+          todosList={filterByStatus(todosList, status)}
           getTodoEditingId={this.getTodoEditingId}
           todoEditingId={todoEditingId}
           onEditTodo={this.onEditTodo}
@@ -86,7 +106,7 @@ class App extends PureComponent {
           isCheckedAll={isCheckedAll}
           checkAllTodos={this.checkAllTodos}
         />
-        <Footer />
+        <Footer setStatusFilter={this.setStatusFilter} status={status} />
       </div>
     );
   }

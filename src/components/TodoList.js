@@ -4,7 +4,12 @@ const TodoList = (props) => {
   const { todosList, isCheckedAll, checkAllTodos } = props;
   return (
     <section className="main">
-      <input className="toggle-all" type="checkbox" checked={isCheckedAll} />
+      <input
+        className="toggle-all"
+        type="checkbox"
+        checked={isCheckedAll}
+        onChange={() => {}}
+      />
       <label htmlFor="toggle-all" onClick={checkAllTodos}></label>
       <ul className="todo-list">
         {todosList.map((todo, index) => (

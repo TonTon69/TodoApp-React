@@ -1,23 +1,24 @@
 import React from "react";
 
 const Footer = (props) => {
+  const { status, setStatusFilter } = props;
   const lilterBtns = [
     {
       title: "All",
-      isActived: true,
-      onClick: () => {},
+      isActived: status === "ALL",
+      onClick: () => setStatusFilter("ALL"),
       link: "",
     },
     {
       title: "Active",
-      isActived: false,
-      onClick: () => {},
+      isActived: status === "ACTIVE",
+      onClick: () => setStatusFilter("ACTIVE"),
       link: "active",
     },
     {
       title: "Completed",
-      isActived: false,
-      onClick: () => {},
+      isActived: status === "COMPLETED",
+      onClick: () => setStatusFilter("COMPLETED"),
       link: "completed",
     },
   ];
